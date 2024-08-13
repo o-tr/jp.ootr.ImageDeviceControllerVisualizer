@@ -1,0 +1,19 @@
+{
+  "name": "jp.ootr.ImageDeviceControllerVisualizer",
+  "references": [
+    "jp.ootr.common",
+    "Unity.TextMeshPro",
+    "jp.ootr.ImageDeviceController",
+    "UdonSharp.Runtime",
+    "VRC.Udon"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}
