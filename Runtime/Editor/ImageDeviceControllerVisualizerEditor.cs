@@ -1,4 +1,5 @@
-﻿using jp.ootr.common;
+﻿#if UNITY_EDITOR
+using jp.ootr.common;
 using UnityEditor;
 
 namespace jp.ootr.ImageDeviceControllerVisualizer.Editor
@@ -9,12 +10,12 @@ namespace jp.ootr.ImageDeviceControllerVisualizer.Editor
         private bool _debug;
 
         private SerializedProperty _imageDeviceController;
-        
+
         public virtual void OnEnable()
         {
             _imageDeviceController = serializedObject.FindProperty("imageDeviceController");
         }
-        
+
         public override void OnInspectorGUI()
         {
             _debug = EditorGUILayout.ToggleLeft("Debug", _debug);
@@ -23,14 +24,15 @@ namespace jp.ootr.ImageDeviceControllerVisualizer.Editor
                 base.OnInspectorGUI();
                 return;
             }
-            
+
             EditorGUILayout.LabelField("ImageDeviceControllerVisualizer", EditorStyle.UiTitle);
-            
+
             EditorGUILayout.Space();
-            
+
             serializedObject.Update();
             EditorGUILayout.PropertyField(_imageDeviceController);
             serializedObject.ApplyModifiedProperties();
         }
     }
 }
+#endif
