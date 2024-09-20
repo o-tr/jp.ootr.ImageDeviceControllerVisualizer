@@ -1,37 +1,50 @@
 ﻿#if UNITY_EDITOR
-using jp.ootr.common;
+using jp.ootr.common.Editor;
+using jp.ootr.ImageDeviceController.Editor;
 using UnityEditor;
+using UnityEditor.UIElements;
+using UnityEngine.UIElements;
 
 namespace jp.ootr.ImageDeviceControllerVisualizer.Editor
 {
     [CustomEditor(typeof(ImageDeviceControllerVisualizer))]
-    public class ImageDeviceControllerVisualizerEditor : UnityEditor.Editor
+    public class ImageDeviceControllerVisualizerEditor : BaseEditor
     {
-        private bool _debug;
-
-        private SerializedProperty _imageDeviceController;
-
-        public virtual void OnEnable()
+        protected override string GetScriptName()
         {
-            _imageDeviceController = serializedObject.FindProperty("imageDeviceController");
+            return "Image Device Controller Visualizer";
         }
-
-        public override void OnInspectorGUI()
+        
+        protected override VisualElement GetLayout()
         {
-            _debug = EditorGUILayout.ToggleLeft("Debug", _debug);
-            if (_debug)
+            var root = new VisualElement();
+            var error = new HelpBox("Image Device Controller の参照を設定してください\nImage Device Controller is not set", HelpBoxMessageType.Error);
+            var isError = serializedObject.FindProperty("imageDeviceController").objectReferenceValue == null;
+            var controller = new ObjectField("Image Device Controller")
             {
-                base.OnInspectorGUI();
-                return;
+                objectType = typeof(ImageDeviceController.ImageDeviceController),
+                bindingPath = "imageDeviceController"
+            };
+            root.Add(controller);
+            
+            if (isError)
+            {
+                InfoBlock.Add(error);
             }
+            
+            controller.RegisterValueChangedCallback(evt =>
+            {
+                if (evt.newValue == null && !InfoBlock.Contains(error))
+                {
+                    InfoBlock.Add(error);
+                }
+                else if (evt.newValue != null && InfoBlock.Contains(error))
+                {
+                    InfoBlock.Remove(error);
+                }
+            });
 
-            EditorGUILayout.LabelField("ImageDeviceControllerVisualizer", EditorStyle.UiTitle);
-
-            EditorGUILayout.Space();
-
-            serializedObject.Update();
-            EditorGUILayout.PropertyField(_imageDeviceController);
-            serializedObject.ApplyModifiedProperties();
+            return root;
         }
     }
 }
