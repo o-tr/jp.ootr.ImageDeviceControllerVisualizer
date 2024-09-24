@@ -1,7 +1,7 @@
 ﻿{
   "name": "jp.ootr.image-device-controller-visualizer",
   "displayName": "ImageDeviceControllerVisualizer",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "license": "MIT",
   "unity": "2022.3",
   "description": "Cache visualizer for image device controller",
